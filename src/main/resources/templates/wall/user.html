@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:with="currentPage = ${answeredQuestions.getNumber() + 1}" >
+
+<head>
+<inside-head th:replace="part/_head.html :: head(title=${'@(' + user.username + ') ' 
+		+ user.fullname + ' - ' + numAnsweredQuestions + ' answer(s)' 
+		+ (answeredQuestions.isFirst() ? '' : (' - Page '+ currentPage) ) })" />
+</head>
+
+<body th:with="isLoggedIn = ${#authorization.expression('isAuthenticated()')},
+	isAuthor = ${#authentication.name == user.username } ">
+    <div class="bg-light" id="section">
+        <nav th:replace="part/_nav.html :: nav"/>
+
+        <div class="container mt-3">
+            <div class="row flex-md-row">
+
+                <div class="col-lg-8 col-12 mb-3 px-2 order-2 order-lg-1">
+                    <div class="card mb-3">
+                        <div th:replace="part/_info_card.html :: info(user=${user}, isAuthor=${isAuthor})" />
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">Answered 
+                            	<small th:unless="${ answeredQuestions.isFirst() }" 
+                            		th:text="${'Page ' + currentPage }" />
+                            </h4>
+                            <hr />
+                            <div class="list-group" th:each="question : ${answeredQuestions.getContent()}">
+                                <div th:if="${question.answerBody != null}"
+                                    class="px-3 py-3 mb mb-2 bg-light list-group-item flex-column align-items-start">
+                                    <div class="d-flex w-100 flex-column flex-md-row justify-content-between">
+                                        <h6 class="mb-1 p-0 col-md-9 pl-md-0 pr-md-2 text-break" th:text="${question.questionBody}" />
+                                        <small class="text-muted pr-md-0 ml-md-auto" th:text="${question.answerDate}" />
+                                    </div>
+                                    <div class="mb-2">
+                                    <small class="text-muted" 
+                                    	th:if="${question.incognitoAsk}">Anonymous</small>
+                                    <small class="text-muted"
+                                     	th:unless="${question.incognitoAsk}">
+                                     	<a th:href="@{'/wall/' + ${question.userAsk.username}}" 
+                                     	th:text="${question.userAsk.fullname}"/>	
+                                    </small>
+                                    </div>
+                                    <p class="mb-1 text-break" th:text="${question.answerBody}" />
+                                </div>
+                            </div>
+                            <p th:unless="${answeredQuestions.hasContent()}">There is 0 answer.</p>
+                        </div>
+                        <div th:replace="part/_pagination.html :: paging(slice=${answeredQuestions},
+                        	url = ${'/wall/' + user.username}, totalElements=${numAnsweredQuestions},
+                        	numDigitOfTotal = ${numDigitTotalQuestions})" />
+                    </div>
+
+
+                </div>
+                <div class="col-lg-4 col mb-3 px-2 order-1 order-lg-1">
+                    <div th:replace="part/_alert.html :: alertWidget" />
+
+                    <div th:replace="${isAuthor} ? ~{part/_profile_widget.html :: profileWidget} 
+                    	: ~{part/_profile_widget.html :: welcomeWidget} " ></div>
+
+					<div th:replace="part/_profile_widget.html :: menuLikeNav" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="part/_footer.html :: footer"/>
+
+	<div th:replace="part/_js.html :: js" />
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<inside-head
+	th:replace="part/_head.html :: head(title=${'Ask @(' + user.username + ') ' + user.fullname})" />
+</head>
+
+<body th:with="isLoggedIn =  ${#authorization.expression('isAuthenticated()')},
+	isAuthor = ${#authentication.name == user.username } ">
+    <div class="bg-light" id="section">
+		<nav th:replace="part/_nav.html :: nav" />
+		<div class="container mt-3">
+			<div class="row flex-md-row">
+				<div class="col-lg-8 col-12 mb-3 px-2 order-2 order-lg-1">
+					<div class="card mb-3">
+						<div th:replace="part/_info_card.html :: info(user=${user}, hideAskBtn=${true})" />
+					</div>
+
+					<div class="card mb-3">
+						<div class="card-body">
+							<h4 class="card-title">Type a question</h4>
+							<hr />
+							<form method="post" th:action="@{'/wall/' + ${user.username} +'/ask' }" th:object="${question}">
+								<textarea class="form-control mb-3  px-2" rows="4" maxlength="400" 
+									th:field="*{questionBody}" required="required"
+									th:placeholder="${'Ask @' + user.username + ' something ...'}"></textarea>
+								<div class="btn-group">
+									<div class="custom-control custom-switch">
+										<input th:field="*{incognitoAsk}" th:if="${isLoggedIn and !isAuthor}" type="checkbox"
+											class="custom-control-input" id="incognitoAsk" name="incognitoAsk" checked="" />
+										<input th:unless="${isLoggedIn and !isAuthor}" disabled="disabled" type="checkbox"
+											class="custom-control-input" id="incognitoAsk" checked="" />
+										<label class="custom-control-label" for="incognitoAsk">
+											<small class="text-muted">incognito</small>
+										</label>
+									</div>
+								</div>
+								<div class="btn-group float-right">
+									<a class="btn btn-link rounded" th:href="@{'/wall/' + ${user.username} }">Back</a>
+									<button type="submit" class="btn btn-primary rounded">Send</button>
+								</div>						
+							</form>
+							<small class="text-muted" th:if="${!isLoggedIn}">Want turn off anonymous mode? 
+								<a th:href="@{/login}">Login</a> or <a th:href="@{/index}">Register</a> now!
+							</small>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col mb-3 px-2 order-1 order-lg-1">
+					<div th:replace="part/_alert.html :: alertWidget" />
+					<div th:replace="part/_profile_widget.html :: welcomeWidget" />
+					<div th:replace="part/_profile_widget.html :: menuLikeNav" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="part/_footer.html :: footer" />
+	
+	<div th:replace="part/_js.html :: js" />
+</body>
+
+</html>

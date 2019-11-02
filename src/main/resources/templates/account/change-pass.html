@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<inside-head th:replace="part/_head.html :: head(title=${'Change password'}) " />
+</head>
+
+<body>
+    <div class="bg-light" id="section">
+        <nav th:replace="part/_nav.html :: nav(isLoggedIn=${true}, isAuthor=${false})"/>
+
+        <div class="container mt-3">
+            <div class="row flex-md-row">
+
+                <div class="col-lg-8 col-12 mb-3 px-2 order-2 order-lg-1">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">Change password</h4>
+                            <hr />
+                            <form th:object="${tempUser}" th:action="@{/user/change-password}" method="post">
+                            	<input type="hidden" th:field="*{username}" />
+							  	<div class="form-group">
+							    	<label>Old password</label>
+							    	<input name="oldPassword" class="form-control" type="password">
+							 	</div>
+							  	<div class="form-group">
+							  		<label>New password</label>
+							    	<input th:field="*{password}" class="form-control" type="password">
+							    	<small class="form-text text-muted">Password contains 6-15 characters.</small>
+							  	</div>
+							  	<div class="form-group">
+							  		<label>Confirm password</label>
+							    	<input required="required" th:field="*{rePassword}" class="form-control" type="password">
+							  	</div>
+							  	<div class="btn-group float-right">
+								  	<a class="btn btn-link rounded" th:href="@{'/wall/' + ${#authentication.name}}">Cancel</a>
+							  		<button type="submit" class="btn btn-primary rounded">Submit</button>
+							  	</div>		
+							</form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col mb-3 px-2 order-1 order-lg-1">
+                    <div th:replace="part/_alert.html :: alertWidget" />
+                    	
+					<div th:replace="part/_profile_widget.html :: menuLikeNav(isLoggedIn=${true},
+						isChangePass=${true})" />
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="part/_footer.html :: footer"/>
+
+   	<div th:replace="part/_js.html :: js" />
+</body>
+
+</html>

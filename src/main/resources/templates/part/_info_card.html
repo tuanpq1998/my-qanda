@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="info" class="card-body flex-sm-row flex-column row"
+	th:with="ask = ${isAuthor == null or !isAuthor} ? 'ASK' : 'ASK MYSELF'">
+	<div class="col-sm-5 text-sm-right text-center">
+		<img
+			th:src="${'http://placehold.jp/70/ffaa6f/a5411f/150x150.png?text=' +
+			user.fullname.charAt(0) +'&css=%7B%22font-weight%22%3A%22%20bold%22%7D'}"
+			class="rounded-circle" alt="...">
+	</div>
+	<div class="col-sm-7 text-sm-left text-center mt-3">
+		<div class="d-inline-block text-left">
+			<p th:text="${user.fullname + ' @(' + user.username + ')'}"
+				class="mb-3 h6" />
+			<p class="mb-2" th:if="${user.workplace != null}"
+				th:text="${'Study/work at ' + user.workplace}" />
+			<p class="mb-2" th:if="${user.location != null}"
+				th:text="${'Live in ' + user.location}" />
+			<p class="mb-1" th:text="${'Joined at ' + user.joinDate}" />
+		</div>
+		<hr class="mt-1 mb-2" th:if="${hideAskBtn == null or !hideAskBtn}" />
+		<a th:if="${hideAskBtn == null or !hideAskBtn}"
+			th:href="@{'/wall/' + ${user.username} + '/ask'}"
+			class="btn btn-block btn-primary rounded mx-sm-0 mx-auto"
+			style="width: 140px;" th:text="${ask}" />
+	</div>
+</div>

@@ -1,0 +1,28 @@
+:root {
+	--footer-height: 97px;
+}
+
+body {
+	min-height: 100vh;
+}
+
+footer {
+	height: var(--footer-height);
+}
+
+#section {
+	min-height: calc(100vh - var(--footer-height));
+}
+
+#login, #register {
+	width: 40%;
+	background: white;
+	min-width: 400px;
+}
+
+@media ( max-width : 576px) {
+	#login, #register {
+		width: 90%;
+		min-width: unset;
+	}
+}

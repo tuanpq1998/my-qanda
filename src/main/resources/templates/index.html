@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:with="head = ~{part/_head.html :: head(title='Welcome')}">
+<head
+	th:replace="${head}" />
+</head>
+<body th:with="isLoggedIn = ${#authorization.expression('isAuthenticated()')},
+	currentUsername = ${#authentication.name}">
+    <div class="bg-light" id="section">
+        <nav th:replace="part/_nav.html :: nav"/>
+
+        <div class="container mt-3">
+            <div class="row justify-content-top align-items-center flex-column">
+
+                <div th:replace="part/_heading :: heading" /> 
+				<div th:unless="${isLoggedIn}" class="btn-group d-inline-block">
+                    <a class="btn btn-primary rounded" th:href=@{/login}>Login</a> 
+					or  <a href="#register" class="btn-link">Register bellow</a>
+                </div>
+				<form th:unless="${isLoggedIn}" class="form-group mt-3 border p-3 card mb-5" id="register" method="post"
+					th:object="${tempUser}" th:action="@{/index}">
+				<h5>Register</h5>
+				<hr />
+				<div th:if="${#fields.hasErrors('*')}" class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Error!</strong> <th:block th:text="${#fields.errors('*').get(0)}" />
+				</div>
+					<div class="mb-2">
+					<input th:field="*{fullname}" required="required" class="form-control" type="text" placeholder="fullname"/>
+					</div>
+					<div class="mb-2">
+					<input th:field="*{username}" required="required" class="form-control" type="text" placeholder="username"/>
+					</div>
+					<div class="mb-2">
+					<input th:field="*{email}" required="required" class="form-control" type="email" placeholder="email"/>
+					</div>
+					<div class="mb-2">
+					<input th:field="*{password}" required="required" class="form-control" type="password" placeholder="password"/>
+					</div>
+					<div class="mb-2">
+					<input th:field="*{rePassword}" required="required" class="form-control" type="password" placeholder="rePassword"/>
+					</div>
+					<button class="btn btn-success rounded mt-3 float-right">Submit</button> 
+				</form>
+				
+				<div th:if="${isLoggedIn}" class="d-inline-block text-center">
+					<p th:text="${'Welcome back, ' + currentUsername}" />
+					<a th:href="@{'/wall/' + ${currentUsername}}" class="btn btn-primary rounded">Go to wall</a>
+				</div>
+				
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="part/_footer.html :: footer"/>
+
+	<div th:replace="part/_js.html :: js" />
+
+</body>
+
+</html>

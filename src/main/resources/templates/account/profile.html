@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<inside-head th:replace="part/_head.html :: head(title=${'My Profile'}) " />
+</head>
+
+<body>
+    <div class="bg-light" id="section">
+        <nav th:replace="part/_nav.html :: nav(isLoggedIn=${true}, isAuthor=${false})"/>
+
+        <div class="container mt-3">
+            <div class="row flex-md-row">
+
+                <div class="col-lg-8 col-12 mb-3 px-2 order-2 order-lg-1">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">Profile</h4>
+                            <hr />
+                            <form th:object="${user}" th:action="@{/user/profile}" method="post">
+							  	<div class="form-group">
+							    	<label>Username</label>
+							    	<input th:field="*{username}" type="text" class="form-control" readonly="readonly">
+							 	</div>
+							  	<div class="form-group">
+							  		<label>Fullname</label>
+							    	<input th:field="*{fullname}" type="text" class="form-control" readonly="readonly">
+							  	</div>
+							  	<div class="form-group">
+							  		<label>Email</label>
+							    	<input required="required" th:field="*{email}" type="email" class="form-control">
+							  	</div>
+								<div class="form-group">
+							  		<label>Workplace</label>
+							    	<input th:field="*{workplace}" type="text" class="form-control" >
+							  	</div>
+							  	<div class="form-group">
+							  		<label>Location</label>
+							    	<input th:field="*{location}" type="text" class="form-control" >
+							  	</div>
+							  	<div class="btn-group float-right mt-3">
+								  	<a class="btn btn-link rounded" th:href="@{'/wall/' + ${#authentication.name}}">Back</a>
+							  		<button type="submit" class="btn btn-primary rounded">Save</button>
+							  	</div>							  
+							</form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col mb-3 px-2 order-1 order-lg-1">
+                    <div th:replace="part/_alert.html :: alertWidget" />
+                    	
+					<div th:replace="part/_profile_widget.html :: menuLikeNav(isLoggedIn=${true},
+						isProfile=${true})" />
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="part/_footer.html :: footer"/>
+
+   	<div th:replace="part/_js.html :: js" />
+</body>
+
+</html>

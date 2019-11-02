@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<inside-head
+	th:replace="part/_head.html :: head(title='Error 404 - Not Found')" />
+</head>
+<body>
+    <div class="bg-light" id="section">
+        <nav th:replace="part/_nav.html :: nav"/>
+        <div class="container mt-3">
+            <div class="row justify-content-top align-items-center flex-column">
+                <h1 class="cover-heading mt-5">404</h1>
+				<p>Error - Not Found</p>
+				<a th:href="@{/index}" class="btn btn-primary rounded">Go home</a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <footer th:replace="part/_footer.html :: footer"/>
+
+	<div th:replace="part/_js.html :: js" />
+</body>
+
+</html>

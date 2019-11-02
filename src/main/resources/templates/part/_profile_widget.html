@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="profileWidget" th:remove="tag">
+	<div class="card mb-3">
+		<div class="card-body">
+			<h4 class="card-title">Share to be asked!</h4>
+			<hr />
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">@</span>
+				</div>
+				<input type="text" class="form-control" readonly="readonly"
+					th:value="@{'/wall/' + ${user.username}}" />
+			</div>
+		</div>
+	</div>
+
+	<div class="card mb-3">
+		<div class="card-body">
+			<h4 class="card-title">Stats</h4>
+			<hr />
+			<p>Answered/Question:</p>
+			<div class="progress" style="height: 20px;">
+				<div th:if="${numTotalQuestions!=0}" class="progress-bar progress-bar-striped" 
+					role="progressbar" th:style="${'width:'+(numAnsweredQuestions*100.0/numTotalQuestions)+'%'}"
+					th:text="${ (numAnsweredQuestions*100/numTotalQuestions) +'%'}"
+					aria-valuemin="0" aria-valuemax="100" />
+				<div th:unless="${numTotalQuestions!=0}" class="progress-bar progress-bar-striped text-dark" 
+					role="progressbar" style="width: 0;" aria-valuemin="0" aria-valuemax="100" >0%</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<th:block th:fragment="menuLikeNav">
+	<div th:if=${isLoggedIn}
+		class="list-group mb-3 d-none d-lg-block d-xl-block">
+		
+		<a th:unless="${#bools.isTrue(isProfile)}" th:href="@{/user/profile}" 
+			class="list-group-item list-group-item-action">Edit profile</a>
+		<a th:if="${#bools.isTrue(isProfile)}" href="#" 
+			class="list-group-item active list-group-item-action">Edit profile</a> 
+		
+		<a th:unless="${#bools.isTrue(isChangePass)}" th:href="@{/user/change-password}" 
+			class="list-group-item list-group-item-action">Change password</a>
+		<a th:if="${#bools.isTrue(isChangePass)}" href="#" 
+			class="list-group-item active list-group-item-action">Change password</a> 	
+	
+		<a th:href="@{/logout}" class="list-group-item list-group-item-action">Logout</a>
+	</div>
+</th:block>
+
+<div th:fragment="welcomeWidget" class="card mb-3" th:unless=${isLoggedIn}>
+	<div class="card-body">
+		<h4 class="card-title">Join with us!</h4>
+		<hr />
+		<p><mark>Login</mark> or <mark>Register</mark> now to start Q&A with your friend! ^^</p>
+	</div>
+</div>

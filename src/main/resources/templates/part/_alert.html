@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="alert" class="alert alert-dismissible alert-danger">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<strong>Error! </strong> Wrong password or username.
+</div>
+
+<div th:fragment="alertLogout"
+	class="alert alert-dismissible alert-success">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<strong>Done! </strong> You have been successfully logged out!
+</div>
+
+<div th:fragment="alertRegister"
+	class="alert alert-dismissible alert-success">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<strong>Done! </strong> Your account has been created!
+</div>
+
+<th:block th:fragment="alertWidget">
+	<div th:if="${param.asked != null}"
+		class="alert alert-dismissible alert-success">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Done!</strong> Your question has been successfully sent!
+	</div>
+	
+	<div th:if="${param.edited != null}"
+		class="alert alert-dismissible alert-success">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Done!</strong> Your profile has been updated!
+	</div>
+	
+	<div th:if="${param.failed != null}"
+		class="alert alert-dismissible alert-danger">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Error!</strong> Answer body is required!
+	</div>
+	
+	<div th:if="${param.changed != null}"
+		class="alert alert-dismissible alert-success">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Done!</strong> Your password has been changed!
+	</div>
+
+	<div th:if="${param.answered != null}"
+		class="alert alert-dismissible alert-success">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Done!</strong> Your answer has been successfully submit!
+	</div>
+
+	<div th:if="${errorsValidation !=  null}"
+		class="alert alert-dismissible alert-danger">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Error!</strong>
+		<dl class="m-0" th:each="error : ${errorsValidation}">
+			<dd class="m-0" th:text="${error.getDefaultMessage()}" />
+		</dl>
+	</div>
+
+</th:block>

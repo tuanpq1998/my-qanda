@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<inside-head
+	th:replace="part/_head.html :: head(title='Login')" />
+</head>
+<body>
+    <div class="bg-light" id="section">
+        <nav th:replace="part/_nav.html :: nav"/>
+        <div class="container mt-3">
+            <div class="row justify-content-top align-items-center flex-column">
+                <div th:replace="part/_heading :: heading" /> 
+				<form id="login" class="form-group mt-3 border p-3" method="post" 
+					th:action="@{/login}">
+				<div th:replace="${param.error != null} ? ~{part/_alert.html :: alert} : _"></div>
+				<div th:replace="${param.logout != null} ? ~{part/_alert.html :: alertLogout} : _"></div>
+				<div th:replace="${param.registered != null} ? ~{part/_alert.html :: alertRegister} : _"></div>
+				<h5>Login</h5>
+				<hr />
+					<input th:value="${param.name?:''}" required="required" class="form-control mb-2" type="text" name="username" placeholder="username"/>
+					<input required="required" class="form-control mb-2" type="password" name="password" placeholder="password"/>
+					<a class="btn btn-link rounded mt-3 float-left" th:href="@{/index}" >Register</a>
+					<button class="btn btn-primary rounded mt-3 float-right">Login</button> 
+				</form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <footer th:replace="part/_footer.html :: footer"/>
+
+	<div th:replace="part/_js.html :: js" />
+</body>
+
+</html>
