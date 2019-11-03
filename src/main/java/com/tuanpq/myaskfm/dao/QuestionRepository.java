@@ -8,6 +8,10 @@ package com.tuanpq.myaskfm.dao;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tuanpq.myaskfm.entity.Question;
 
@@ -37,5 +41,11 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
 	public long countByUserAsk_UsernameAndAnswerSeenFalseAndAndAnswerBodyNotNullAndUserAnswer_UsernameNot(
 			String username, String username2);
+	
+	@Transactional
+	@Modifying
+	@Query("UPDATE Question q SET q.answerBody=:answer, q.answerDate=:date WHERE q.id = :id")
+	public int updateAnswerForQuestion(@Param("answer") String answer, 
+			  @Param("date") String date, @Param("id") int id);
 
 }

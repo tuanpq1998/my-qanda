@@ -102,10 +102,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public void updateAnswerForQuestion(int questionId, String answer) {
-		Question question = findById(questionId);
-		question.setAnswerBody(answer);
-		question.setAnswerDate(DateTimeHandler.convertToSaveToSQL(new Date()));
-		save(question);
+		String date = DateTimeHandler.convertToSaveToSQL(new Date());
+		questionRepository.updateAnswerForQuestion(answer, date, questionId);
 	}
 
 	@Override

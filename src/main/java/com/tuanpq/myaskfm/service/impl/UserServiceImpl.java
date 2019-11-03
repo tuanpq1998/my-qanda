@@ -62,13 +62,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUserInfo(String username, User user) {
-		User userFromDb = findByUsername(username);
-		userFromDb.setEmail(user.getEmail());
-		userFromDb.setLocation(user.getLocation());
-		userFromDb.setWorkplace(user.getWorkplace());
-		
-		save(userFromDb);
+	public void updateUserInfo(String username, User updateUser) {
+		userRepository.updateUserInfo(updateUser.getEmail(), updateUser.getLocation(), 
+				updateUser.getWorkplace(), username);
 	}
 
 	@Override
@@ -96,9 +92,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateUserPassword(String username, String password) {
-		User user = findByUsername(username);
-		user.setPassword(passwordEncoder.encode(password));
-		save(user);
+		userRepository.updateUserPassword(passwordEncoder.encode(password), username);
 	}
 
 }
