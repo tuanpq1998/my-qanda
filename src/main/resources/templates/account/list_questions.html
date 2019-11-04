@@ -39,7 +39,7 @@
                                      	th:text="${question.userAsk.fullname}"/>	
                                     </small>
                                     <span th:if="${isUnansweredQuestion}" class="badge badge-warning p-1">unanswered</span>
-                                    <span th:if="${unseenList.contains(question.id)}" class="badge badge-danger p-1">new</span>
+                                    <span th:unless="${question.questionSeen}" class="badge badge-danger p-1">new</span>
                                     </div>
                                     <p class="mb-1 text-break" th:text="${question.answerBody}" />
                                     <form th:if="${isUnansweredQuestion}" method="post" class="row flex-md-row" 

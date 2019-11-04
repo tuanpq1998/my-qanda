@@ -5,6 +5,8 @@
 
 package com.tuanpq.myaskfm.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,8 +46,18 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query("UPDATE Question q SET q.answerBody=:answer, q.answerDate=:date WHERE q.id = :id")
+	@Query("UPDATE Question q SET q.answerBody=:answer, q.answerDate=:date WHERE q.id =:id")
 	public int updateAnswerForQuestion(@Param("answer") String answer, 
 			  @Param("date") String date, @Param("id") int id);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE Question q SET q.questionSeen=true WHERE q.id IN :ids")
+	public int setAllInListQuestionsSeen(@Param("ids") List<Integer> listId);
+	
+	@Transactional
+	@Modifying
+	@Query("UPDATE Question q SET q.answerSeen=true WHERE q.id IN :ids")
+	public int setAllInListAnswersSeen(@Param("ids") List<Integer> listId);
 
 }
