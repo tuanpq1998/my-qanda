@@ -105,23 +105,7 @@ public class QuestionServiceImpl implements QuestionService {
 		String date = DateTimeHandler.convertToSaveToSQL(new Date());
 		questionRepository.updateAnswerForQuestion(answer, date, questionId);
 	}
-
-	@Override
-	public void setAllOwnQuestionsSeen(List<Question> listQuestions) {
-		for (Question question : listQuestions) {
-			question.setQuestionSeen(true);
-		}
-		questionRepository.saveAll(listQuestions);
-	}
 	
-	@Override
-	public void setAllOwnAnswersSeen(List<Question> listAnswers) {
-		for (Question question : listAnswers) {
-			question.setAnswerSeen(true);
-		}
-		questionRepository.saveAll(listAnswers);
-	}
-
 	@Override
 	public int countAnsweredQuestionsByUserId(int userId) {
 		return (int) questionRepository.countByUserAnswer_IdAndAnswerBodyNotNull(userId);
@@ -151,6 +135,20 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public int countUnseenAnswersOfUser(String username) {
 		return (int) questionRepository.countByUserAsk_UsernameAndAnswerSeenFalseAndAndAnswerBodyNotNullAndUserAnswer_UsernameNot(username, username);
+	}
+
+	@Override
+	public void setAllInListQuestionsSeen(List<Question> listQuestions) {
+		List<Integer> listId = getListIdUnseenQ(listQuestions);
+		if (listId.size() != 0)
+			questionRepository.setAllInListQuestionsSeen(listId);
+	}
+	
+	@Override
+	public void setAllInListAnswersSeen(List<Question> listAnswers) {
+		List<Integer> listId = getListIdUnseenA(listAnswers);
+		if (listId.size() != 0)
+			questionRepository.setAllInListAnswersSeen(listId);
 	}
 
 }

@@ -51,15 +51,12 @@ public class UserController {
 		Slice<Question> sliceQuestions = questionService
 				.findAllQuestionsReceivedByUser(principal.getName(), page-1);
 		model.addAttribute("questions", sliceQuestions);
-		List<Question> listQuestions = sliceQuestions.getContent();
-		List<Integer> listIdUnseenQuestions = questionService.getListIdUnseenQ(listQuestions);
-		model.addAttribute("unseenList", listIdUnseenQuestions);
 		
 		int totalQuestions = questionService.countQuestionsReceivedOfUser(principal.getName());
 		model.addAttribute("numTotalQuestions", totalQuestions);
 		model.addAttribute("numDigitTotalQuestions", String.valueOf(totalQuestions).length());
 		
-		questionService.setAllOwnQuestionsSeen(listQuestions);
+		questionService.setAllInListQuestionsSeen(sliceQuestions.getContent());
 		
 		NotificationAdder.addNumUnseenQuestionsToModel(questionService, model, principal);
 		NotificationAdder.addNumUnseenAnswersToModel(questionService, model, principal);
@@ -82,15 +79,12 @@ public class UserController {
 		Slice<Question> sliceAnswers = questionService
 				.findAllQuestionsSentByUser(principal.getName(), page-1);
 		model.addAttribute("answers", sliceAnswers);
-		List<Question> listAnswers = sliceAnswers.getContent();
-		List<Integer> listIdUnseenAnswers = questionService.getListIdUnseenA(listAnswers);
-		model.addAttribute("unseenList", listIdUnseenAnswers);
 		
 		int totalAnswers = questionService.countQuestionsSentOfUser(principal.getName());
 		model.addAttribute("numTotalAnswers", totalAnswers);
 		model.addAttribute("numDigitTotalAnswers", String.valueOf(totalAnswers).length());
 		
-		questionService.setAllOwnAnswersSeen(listAnswers);
+		questionService.setAllInListAnswersSeen(sliceAnswers.getContent());
 		
 		NotificationAdder.addNumUnseenQuestionsToModel(questionService, model, principal);
 		NotificationAdder.addNumUnseenAnswersToModel(questionService, model, principal);

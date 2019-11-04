@@ -36,10 +36,6 @@ public interface QuestionService {
 
 	public void updateAnswerForQuestion(int questionId, String answer);
 
-	public void setAllOwnQuestionsSeen(List<Question> list);
-
-	public void setAllOwnAnswersSeen(List<Question> listAnswers);
-
 	public int countAnsweredQuestionsByUserId(int userId);
 
 	public List<Integer> getListIdUnseenQ(List<Question> list);
@@ -49,5 +45,9 @@ public interface QuestionService {
 	public int countUnseenQuestionsOfUser(String username);
 
 	public int countUnseenAnswersOfUser(String username);
+
+	public void setAllInListQuestionsSeen(List<Question> listQuestions);
+
+	public void setAllInListAnswersSeen(List<Question> listAnswers);
 	
 }

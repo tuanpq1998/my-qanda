@@ -38,7 +38,7 @@
                                     </small>
                                     <span th:if="${isSelfQuestion}" class="badge badge-secondary p-1">self-ask</span>
                                     <span th:if="${question.incognitoAsk and !isSelfQuestion}" class="badge badge-success p-1">incognito</span>
-                                    <span th:if="${unseenList.contains(question.id) and !isUnansweredQuestion}" class="badge badge-danger p-1">new</span>
+                                    <span th:if="${!question.answerSeen and !isUnansweredQuestion}" class="badge badge-danger p-1">new</span>
                                     <span th:if="${isUnansweredQuestion}" class="badge badge-warning p-1">unanswer</span>
                                     </div>
                                     <p class="mb-1 text-break" th:text="${question.answerBody}" />
