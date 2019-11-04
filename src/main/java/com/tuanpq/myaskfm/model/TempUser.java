@@ -118,11 +118,13 @@ public class TempUser {
 		this.password = password;
 		this.rePassword = rePassword;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "TempUser [fullname=" + fullname + ", username=" + username
 				+ ", email=" + email + ", password=" + password
-				+ ", rePassword=" + rePassword + "]";
+				+ ", rePassword=" + rePassword + ", oldPassword=" + oldPassword
+				+ "]";
 	}
+	
 }
