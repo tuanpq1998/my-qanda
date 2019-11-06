@@ -7,10 +7,8 @@ package com.tuanpq.myaskfm.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +18,6 @@ import com.tuanpq.myaskfm.dao.UserRepository;
 import com.tuanpq.myaskfm.entity.User;
 import com.tuanpq.myaskfm.model.TempUser;
 import com.tuanpq.myaskfm.service.UserService;
-import com.tuanpq.myaskfm.utility.Constant;
 import com.tuanpq.myaskfm.utility.DateTimeHandler;
 
 @Service
@@ -31,13 +28,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
-	private List<GrantedAuthority> getGrantedAuthorityList() {
-		List<GrantedAuthority> list = new ArrayList<>();
-		GrantedAuthority authority = () -> Constant.DEFAULT_ROLE;
-		list.add(authority);
-		return list;
-	};
 	
 	@Override
 	public User findByUsername(String username) {
@@ -53,7 +43,7 @@ public class UserServiceImpl implements UserService {
 			throw new UsernameNotFoundException("Username " + username
 				+ "not found!");
 		return new org.springframework.security.core.userdetails.User(username, 
-				user.getPassword(), getGrantedAuthorityList());
+				user.getPassword(), new ArrayList<>());
 	}
 	
 	@Override

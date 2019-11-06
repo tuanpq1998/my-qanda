@@ -31,5 +31,4 @@ public class Constant {
 	public static final String WELCOME_URI = "index";
 	public static final String LIST_Q_URI = "user/questions";
 	
-	public static final String DEFAULT_ROLE = "user";
 }
