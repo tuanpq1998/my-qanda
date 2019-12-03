@@ -26,3 +26,7 @@ footer {
 		min-width: unset;
 	}
 }
+
+.reply-btn {
+	line-height: 1;
+}

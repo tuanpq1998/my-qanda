@@ -44,6 +44,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	private List<ObjectError> getListContainsOnlyFirstError(
+			BindingResult result) {
+		List<ObjectError> list = new ArrayList<>();
+		list.add(result.getAllErrors().get(0));
+		return list;
+	}
+	
 	@GetMapping("/questions")
 	public String showQuestionsList(Principal principal, Model model,
 			@RequestParam(name = "page", required = false, defaultValue = "1") Integer page) {
@@ -130,20 +137,15 @@ public class UserController {
 	public String changeUserPassword(Principal principal, Model model,
 			@Validated(OnChangePassword.class) @ModelAttribute TempUser tempUser, 
 			BindingResult result) {
+		String authenticationName = principal.getName();
 		if (result.hasErrors()) {
 			List<ObjectError> list = getListContainsOnlyFirstError(result);
 			model.addAttribute("errorsValidation", list);
 			return showChangePasswordForm(principal, model);
-		}
+		} else if (authenticationName.equals(tempUser.getUsername()))
+			return showChangePasswordForm(principal, model);
 		userService.updateUserPassword(principal.getName(), tempUser.getPassword());
-		return "redirect:/" + Constant.WALL_URI + "/" + principal.getName() + "?changed";
-	}
-
-	private List<ObjectError> getListContainsOnlyFirstError(
-			BindingResult result) {
-		List<ObjectError> list = new ArrayList<>();
-		list.add(result.getAllErrors().get(0));
-		return list;
+		return "redirect:/" + Constant.WALL_URI + "/" + authenticationName + "?changed";
 	}
 
 }
