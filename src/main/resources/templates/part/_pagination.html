@@ -3,7 +3,7 @@
 
 
 <div th:fragment="paging(slice, url, totalElements, numDigitOfTotal)" class="d-block mx-auto" 
-	th:with="totalPage = ${totalElements/slice.getSize() + 1},
+	th:with="totalPage = ${totalElements/slice.getSize() + (totalElements%slice.getSize()==0 ? 0 : 1)},
 			currentPage = ${slice.getNumber() + 1 }">
 	<ul class="pagination">
 		<li th:class="${(currentPage==1 ? 'disabled active ' : '') + 'page-item'}">
